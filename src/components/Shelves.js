@@ -9,7 +9,7 @@ export default class Shelves extends Component {
   };
 
   render() {
-    const {books, changeOption} = this.props;
+    const {books, updateOption} = this.props;
 
     return (
       <div className='list-books-content'>
@@ -23,7 +23,7 @@ export default class Shelves extends Component {
                   <Shelf
                     book={book}
                     key={book.id}
-                    updateOption={changeOption}
+                    updateOption={updateOption}
                   />
                 ))}
             </ol>
@@ -40,7 +40,7 @@ export default class Shelves extends Component {
                   <Shelf
                     book={book}
                     key={book.id}
-                    updateOption={changeOption}
+                    updateOption={updateOption}
                   />
                 ))}
             </ol>
@@ -57,7 +57,7 @@ export default class Shelves extends Component {
                   <Shelf
                     book={book}
                     key={book.id}
-                    updateOption={changeOption}
+                    updateOption={updateOption}
                   />
                 ))}
             </ol>

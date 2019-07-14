@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Shelves from './components/Shelves';
 import Search from './components/Search';
@@ -7,7 +7,7 @@ import SearchButton from './components/SearchButton';
 import Header from './components/Header';
 import './App.css';
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     allBooks: [],
     filteredBooks: []
@@ -47,18 +47,44 @@ class BooksApp extends React.Component {
     return (
       <div className='app'>
         <Switch>
-          {this.state.showSearchPage ? (
-            <Search showSearchPage={this.updateSearchPageState} />
-          ) : (
-            <div className='list-books'>
-              <Header />
+          <Header />
+          <Route
+            exact
+            path='/'
+            render={() => (
               <Shelves
-                allBooks={this.state.books}
-                changeShelf={this.changeBookShelf}
+                books={this.state.allBooks}
+                updateOption={(book, shelf) =>
+                  this.changeBookShelf(book, shelf)
+                }
               />
-              <SearchButton showSearchPage={this.updateSearchPageState} />
-            </div>
-          )}
+            )}
+          />
+          <Route
+            path='/search'
+            render={() => (
+              <div>
+                <Search
+                  filteredBooks={this.state.filteredBooks}
+                  searchBooks={query => this.searchBooks(query)}
+                  updateOption={(book, shelf) =>
+                    this.changeBookShelf(book, shelf)
+                  }
+                />
+              </div>
+            )}
+          />
+          <Route
+            component={function NoMatch() {
+              return (
+                <div className='errorPage'>
+                  <h1>404</h1>
+                  <h3>Page not Found</h3>
+                </div>
+              );
+            }}
+          />
+          <SearchButton />
         </Switch>
       </div>
     );
