@@ -2,10 +2,9 @@ import React from 'react';
 import Shelves from './components/Shelves';
 import Search from './components/Search';
 import * as BooksAPI from './BooksAPI';
-import './App.css';
 import SearchButton from './components/SearchButton';
 import Header from './components/Header';
-
+import './App.css';
 class BooksApp extends React.Component {
   state = {
     /**
@@ -15,7 +14,8 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    books: []
+    books: [],
+    query: ''
   };
 
   updateSearchPageState = state => {
@@ -26,6 +26,15 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then(resp => this.setState({books: resp}));
   }
 
+  changeBookShelf = (book, shelf) => {
+    this.setState({
+      books: this.state.books.map(b => {
+        b.id === book.id ? (b.shelf = shelf) : b;
+        return b;
+      })
+    });
+  };
+
   render() {
     return (
       <div className='app'>
@@ -34,7 +43,10 @@ class BooksApp extends React.Component {
         ) : (
           <div className='list-books'>
             <Header />
-            <Shelves />
+            <Shelves
+              allBooks={this.state.books}
+              changeShelf={this.changeBookShelf}
+            />
             <SearchButton showSearchPage={this.updateSearchPageState} />
           </div>
         )}
