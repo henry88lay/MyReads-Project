@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import Shelf from './Shelf';
 
 export default class Search extends Component {
   render() {
+    const {filteredBooks, searchBooks, updateOption} = this.props;
+
     return (
       <div className='search-books'>
         <div className='search-books-bar'>

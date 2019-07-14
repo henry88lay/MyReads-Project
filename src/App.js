@@ -13,20 +13,33 @@ class BooksApp extends React.Component {
     filteredBooks: []
   };
 
-  updateSearchPageState = state => {
-    this.setState({showSearchPage: state});
+  searchBooks = query => {
+    if (query) {
+      BooksAPI.search(query).then(result => {
+        this.updateSearchedResult(result);
+        if (result.error !== 'empty query') {
+          this.setState({filteredBooks: result});
+        } else {
+          this.setState({filteredBooks: []});
+        }
+      });
+    } else {
+      this.setState({filteredBooks: []});
+    }
   };
 
   componentDidMount() {
-    BooksAPI.getAll().then(resp => this.setState({books: resp}));
+    BooksAPI.getAll().then(books => {
+      this.setState({allBooks: books});
+    });
   }
 
   changeBookShelf = (book, shelf) => {
-    this.setState({
-      books: this.state.books.map(b => {
-        b.id === book.id ? (b.shelf = shelf) : b;
-        return b;
-      })
+    BooksAPI.update(book, shelf).then(updated => {
+      BooksAPI.getAll().then(books => {
+        this.setState({allBooks: books});
+        this.updateSearchedResult(this.state.filteredBooks);
+      });
     });
   };
 
