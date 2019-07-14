@@ -4,17 +4,17 @@ import Shelf from './Shelf';
 
 export default class Search extends Component {
   render() {
-    const {filteredBooks, searchBooks, updateOption} = this.props;
+    const {filteredBooks, searchBooks, changeOption} = this.props;
 
     return (
       <div className='search-books'>
         <div className='search-books-bar'>
-          <button
+          <Link
             className='close-search'
-            onClick={() => this.props.showSearchPage(false)}
+            onClick={event => searchBooks(event.target.value)}
           >
             Close
-          </button>
+          </Link>
           <div className='search-books-input-wrapper'>
             {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -28,7 +28,11 @@ export default class Search extends Component {
           </div>
         </div>
         <div className='search-books-results'>
-          <ol className='books-grid' />
+          <ol className='books-grid'>
+            {filteredBooks.map(book => (
+              <Shelf book={book} key={book.id} updateOption={changeOption} />
+            ))}
+          </ol>
         </div>
       </div>
     );
