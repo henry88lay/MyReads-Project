@@ -13,6 +13,12 @@ class BooksApp extends Component {
     filteredBooks: []
   };
 
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState({allBooks: books});
+    });
+  }
+
   searchBooks = query => {
     if (query) {
       BooksAPI.search(query).then(result => {
@@ -28,17 +34,10 @@ class BooksApp extends Component {
     }
   };
 
-  componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      this.setState({allBooks: books});
-    });
-  }
-
-  changeBookShelf = (book, shelf) => {
+  updateBookShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(updated => {
       BooksAPI.getAll().then(books => {
         this.setState({allBooks: books});
-        this.updateSearchedResult(this.state.filteredBooks);
       });
     });
   };
@@ -55,7 +54,7 @@ class BooksApp extends Component {
               <Shelves
                 books={this.state.allBooks}
                 updateOption={(book, shelf) =>
-                  this.changeBookShelf(book, shelf)
+                  this.updateBookShelf(book, shelf)
                 }
               />
             )}
@@ -68,7 +67,7 @@ class BooksApp extends Component {
                   filteredBooks={this.state.filteredBooks}
                   searchBooks={query => this.searchBooks(query)}
                   updateOption={(book, shelf) =>
-                    this.changeBookShelf(book, shelf)
+                    this.updateBookShelf(book, shelf)
                   }
                 />
               </div>

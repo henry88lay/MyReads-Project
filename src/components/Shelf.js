@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 export default class Shelf extends Component {
   render() {
-    const {book, changeOption} = this.props;
+    const {book, updateOption} = this.props;
     let shelfVal = book.shelf ? book.shelf : 'move';
 
     return (
@@ -23,7 +23,7 @@ export default class Shelf extends Component {
             <div className='book-shelf-changer'>
               <select
                 value={shelfVal}
-                onChange={event => changeOption(book, event.target.value)}
+                onChange={event => updateOption(book, event.target.value)}
               >
                 <option value='move' disabled>
                   Move to...
