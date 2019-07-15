@@ -23,7 +23,7 @@ export default class Shelf extends Component {
             <div className='book-shelf-changer'>
               <select
                 value={shelfVal}
-                onChange={e => changeOption(book, e.target.value)}
+                onChange={event => changeOption(book, event.target.value)}
               >
                 <option value='move' disabled>
                   Move to...

@@ -46,8 +46,8 @@ class BooksApp extends Component {
   render() {
     return (
       <div className='app'>
+        <Header />
         <Switch>
-          <Header />
           <Route
             exact
             path='/'
